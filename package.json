@@ -1,6 +1,6 @@
 {
     "name": "istanbul-smart-text-reporter",
-    "version": "0.0.0",
+    "version": "0.0.1",
     "description": "Istanbul's text reporter but with smarter output; Doesn't print a table if there are no files to print.",
     "keywords": [],
     "homepage": "https://github.com/electrovir/istanbul-smart-text-reporter",
@@ -35,8 +35,7 @@
         "test:web": "virmator test-web"
     },
     "dependencies": {
-        "istanbul-lib-report": "^3.0.0",
-        "virmator": "^4.2.5"
+        "istanbul-lib-report": "^3.0.0"
     },
     "devDependencies": {
         "@istanbuljs/nyc-config-typescript": "^1.0.2",
@@ -61,6 +60,7 @@
         "prettier-plugin-toml": "^0.3.1",
         "source-map-support": "^0.5.21",
         "ts-node": "^10.9.1",
-        "typescript": "^4.8.4"
+        "typescript": "^4.8.4",
+        "virmator": "^4.2.7"
     }
 }
