@@ -21,15 +21,13 @@
     "scripts": {
         "build": "virmator frontend build",
         "compile": "rm -rf dist && virmator compile",
-        "docs:update": "virmator code-in-markdown",
         "format": "virmator format",
         "prepublishOnly": "npm run compile && npm run test:all",
         "preview": "virmator frontend preview",
         "spellcheck": "virmator spellcheck",
         "start": "npm install && virmator frontend",
         "test": "bash ./bash-scripts/run-tests.sh && npm run test:types",
-        "test:all": "npm run test:types && npm test && npm run spellcheck && npm run test:format && npm run test:docs",
-        "test:docs": "virmator code-in-markdown check",
+        "test:all": "npm run test:types && npm test && npm run spellcheck && npm run test:format",
         "test:format": "virmator format check",
         "test:types": "tsc --noEmit",
         "test:web": "virmator test-web"
