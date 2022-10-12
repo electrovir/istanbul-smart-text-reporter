@@ -1,0 +1,66 @@
+{
+    "name": "istanbul-smart-text-reporter",
+    "version": "0.0.0",
+    "description": "Istanbul's text reporter but with smarter output; Doesn't print a table if there are no files to print.",
+    "keywords": [],
+    "homepage": "https://github.com/electrovir/istanbul-smart-text-reporter",
+    "bugs": {
+        "url": "https://github.com/electrovir/istanbul-smart-text-reporter/issues"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/electrovir/istanbul-smart-text-reporter"
+    },
+    "license": "MIT",
+    "author": {
+        "name": "electrovir",
+        "url": "https://github.com/electrovir"
+    },
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "scripts": {
+        "build": "virmator frontend build",
+        "compile": "rm -rf dist && virmator compile",
+        "docs:update": "virmator code-in-markdown",
+        "format": "virmator format",
+        "prepublishOnly": "npm run compile && npm run test:all",
+        "preview": "virmator frontend preview",
+        "spellcheck": "virmator spellcheck",
+        "start": "npm install && virmator frontend",
+        "test": "bash ./bash-scripts/run-tests.sh && npm run test:types",
+        "test:all": "npm run test:types && npm test && npm run spellcheck && npm run test:format && npm run test:docs",
+        "test:docs": "virmator code-in-markdown check",
+        "test:format": "virmator format check",
+        "test:types": "tsc --noEmit",
+        "test:web": "virmator test-web"
+    },
+    "dependencies": {
+        "istanbul-lib-report": "^3.0.0",
+        "virmator": "^4.2.5"
+    },
+    "devDependencies": {
+        "@istanbuljs/nyc-config-typescript": "^1.0.2",
+        "@types/chai": "^4.3.3",
+        "@types/fs-extra": "^9.0.13",
+        "@types/istanbul-lib-report": "^3.0.0",
+        "@types/mocha": "^10.0.0",
+        "@types/node": "^18.8.4",
+        "augment-vir": "^3.0.0",
+        "chai": "^4.3.6",
+        "cspell": "^6.12.0",
+        "fs-extra": "^10.1.0",
+        "mocha": "^10.0.0",
+        "mocha-spec-reporter-with-file-names": "^0.0.0",
+        "nyc": "^15.1.0",
+        "prettier": "^2.7.1",
+        "prettier-plugin-jsdoc": "^0.4.2",
+        "prettier-plugin-multiline-arrays": "^1.1.1",
+        "prettier-plugin-organize-imports": "^3.1.1",
+        "prettier-plugin-packagejson": "^2.3.0",
+        "prettier-plugin-sort-json": "^0.0.3",
+        "prettier-plugin-toml": "^0.3.1",
+        "source-map-support": "^0.5.21",
+        "ts-node": "^10.9.1",
+        "typescript": "^4.8.4"
+    }
+}
