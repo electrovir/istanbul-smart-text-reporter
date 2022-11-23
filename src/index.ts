@@ -384,6 +384,10 @@ export class SmartTextReport extends ReportBase {
             this.cw?.println(makeLine(this.nameWidth, this.missingWidth));
         }
         this.cw?.close();
+
+        if (this.wereAnyRowsPrinted) {
+            process.exit(1);
+        }
     }
 }
 

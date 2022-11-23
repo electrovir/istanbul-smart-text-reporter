@@ -47,10 +47,7 @@ describe('cli tests', () => {
         const results = await runTest(testDirPaths.partialCoverage);
 
         assert.match(results.stdout, tableRegExp);
-        assert.include(
-            results.stderr,
-            'ERROR: Coverage for lines (0%) does not meet threshold (100%)',
-        );
+        assert.include(results.stderr, 'test failed');
         assert.strictEqual(results.exitCode, 1, 'should have failed due to partial coverage');
     });
 });

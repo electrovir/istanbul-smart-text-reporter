@@ -1,12 +1,7 @@
-const baseOptions = require('virmator/base-configs/base-nyc.js');
+const {getBaseConfigWithCoveragePercent} = require('virmator/base-configs/base-nyc.js');
 
 const nycConfig = {
-    ...baseOptions,
-    extends: '@istanbuljs/nyc-config-typescript',
-    instrument: true,
-    exclude: '**/*.test.ts',
-    include: 'src/*',
-    reporter: 'istanbul-smart-text-reporter',
+    ...getBaseConfigWithCoveragePercent(100),
 };
 
 module.exports = nycConfig;

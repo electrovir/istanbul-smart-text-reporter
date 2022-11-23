@@ -8,7 +8,7 @@ repoRootDir="$(dirname "$scriptDir")";
 
 npm install;
 npm run compile;
-originalTarOutput="${repoRootDir}/$(npm pack 2>&1 | tail -1)";
+originalTarOutput="${repoRootDir}/$(NPM_CONFIG_COLOR=false npm pack 2>&1 | tail -1)";
 export TAR_TO_INSTALL;
 TAR_TO_INSTALL="${repoRootDir}/package.tgz";
 mv "$originalTarOutput" "$TAR_TO_INSTALL";
