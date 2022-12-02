@@ -1,5 +1,5 @@
 {
-    "name": "partial-coverage",
+    "name": "partial-coverage-ignore",
     "private": true,
     "scripts": {
         "test": "virmator test"

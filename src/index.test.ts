@@ -1,4 +1,4 @@
-import {runShellCommand} from 'augment-vir/dist/cjs/node-only';
+import {runShellCommand} from '@augment-vir/node-js';
 import chai, {assert} from 'chai';
 import {remove} from 'fs-extra';
 import {describe, it} from 'mocha';
@@ -12,6 +12,7 @@ const testFilesDir = join(repoDir, 'test-files');
 const testDirPaths = {
     totalCoverage: join(testFilesDir, 'total-coverage'),
     partialCoverage: join(testFilesDir, 'partial-coverage'),
+    partialCoverageIgnore: join(testFilesDir, 'partial-coverage-ignore'),
 };
 
 async function runTest(dir: string) {
@@ -49,5 +50,16 @@ describe('cli tests', () => {
         assert.match(results.stdout, tableRegExp);
         assert.include(results.stderr, 'test failed');
         assert.strictEqual(results.exitCode, 1, 'should have failed due to partial coverage');
+    });
+
+    it('should not fail if check coverage is false and no failBelow is provided', async () => {
+        const results = await runTest(testDirPaths.partialCoverageIgnore);
+
+        assert.match(results.stdout, tableRegExp);
+        assert.strictEqual(
+            results.exitCode,
+            0,
+            'should not have failed since checking is turned off',
+        );
     });
 });

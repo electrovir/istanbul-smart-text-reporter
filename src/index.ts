@@ -33,6 +33,7 @@
     (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
     SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
+import {typedHasProperty} from '@augment-vir/common';
 import {CoverageSummary, Totals} from 'istanbul-lib-coverage';
 import {ContentWriter, Context, ReportBase, ReportNode, Watermarks} from 'istanbul-lib-report';
 
@@ -282,6 +283,15 @@ function tableRow(
     return elements.join(DELIM) + ' ';
 }
 
+function getLowestCoverage(
+    cFull: Record<
+        'lines' | 'statements' | 'functions' | 'branches',
+        Record<'total' | 'covered' | 'skipped' | 'pct', number>
+    >,
+): number {
+    return Math.min(cFull.branches.pct, cFull.functions.pct, cFull.statements.pct, cFull.lines.pct);
+}
+
 export class SmartTextReport extends ReportBase {
     public readonly file;
     public readonly maxCols;
@@ -293,17 +303,21 @@ export class SmartTextReport extends ReportBase {
     private rootNode: ReportNode | undefined;
     private headerPrinted = false;
     private wereAnyRowsPrinted = false;
+    private failBelow = 0;
+    private lowestPercent = 100;
 
-    constructor(opts: any = {}) {
-        super(opts);
+    constructor(options: any = {}) {
+        super(options);
 
-        const {maxCols} = opts;
+        this.failBelow = options.failBelow ?? this.failBelow;
 
-        this.file = opts.file || null;
+        const {maxCols} = options;
+
+        this.file = options.file || null;
         this.maxCols = maxCols != null ? maxCols : process.stdout.columns || 80;
         this.cw = null;
-        this.skipEmpty = opts.skipEmpty;
-        this.skipFull = opts.skipFull;
+        this.skipEmpty = options.skipEmpty;
+        this.skipFull = options.skipFull;
     }
 
     onStart(root: ReportNode, context: Context) {
@@ -368,6 +382,10 @@ export class SmartTextReport extends ReportBase {
             this.skipFull,
             this.missingWidth,
         );
+        // the c_full property is not documented but it does exist as runtime
+        this.lowestPercent = typedHasProperty(node, 'c_full')
+            ? Math.min(this.lowestPercent, getLowestCoverage(node.c_full as any))
+            : this.lowestPercent;
         if (!row) {
             throw new Error(`Rows should never be empty because they're filtered beforehand.`);
         }
@@ -385,7 +403,7 @@ export class SmartTextReport extends ReportBase {
         }
         this.cw?.close();
 
-        if (this.wereAnyRowsPrinted) {
+        if (this.wereAnyRowsPrinted && this.lowestPercent < this.failBelow) {
             process.exit(1);
         }
     }
