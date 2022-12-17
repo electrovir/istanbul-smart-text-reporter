@@ -1,8 +1,7 @@
 const {getBaseConfigWithCoveragePercent} = require('virmator/base-configs/base-nyc.js');
 
 const nycConfig = {
-    ...getBaseConfigWithCoveragePercent(100),
-    checkCoverage: false,
+    ...getBaseConfigWithCoveragePercent(0),
 };
 
 module.exports = nycConfig;

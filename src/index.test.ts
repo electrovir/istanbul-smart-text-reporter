@@ -52,7 +52,7 @@ describe('cli tests', () => {
         assert.strictEqual(results.exitCode, 1, 'should have failed due to partial coverage');
     });
 
-    it('should not fail if check coverage is false and no failBelow is provided', async () => {
+    it('should not fail if failBelow is 0', async () => {
         const results = await runTest(testDirPaths.partialCoverageIgnore);
 
         assert.match(results.stdout, tableRegExp);

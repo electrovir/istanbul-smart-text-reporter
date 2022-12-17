@@ -5,14 +5,14 @@
         "test": "virmator test"
     },
     "devDependencies": {
-        "@electrovir/nyc": "^15.1.0",
+        "@electrovir/nyc": "^15.1.0-fix0",
         "@istanbuljs/nyc-config-typescript": "^1.0.2",
         "@types/chai": "^4.3.4",
         "@types/mocha": "^10.0.0",
         "chai": "^4.3.7",
         "istanbul-smart-text-reporter": "file:../../package.tgz",
         "mocha": "^10.1.0",
-        "mocha-spec-reporter-with-file-names": "^0.0.2",
+        "mocha-spec-reporter-with-file-names": "^0.0.3",
         "nyc": "^15.1.0",
         "ts-node": "^10.9.1"
     }

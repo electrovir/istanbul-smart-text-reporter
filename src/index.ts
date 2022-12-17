@@ -404,6 +404,7 @@ export class SmartTextReport extends ReportBase {
         this.cw?.close();
 
         if (this.wereAnyRowsPrinted && this.lowestPercent < this.failBelow) {
+            console.error(`Test coverage requirement of ${this.failBelow}% not met.`);
             process.exit(1);
         }
     }
