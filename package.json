@@ -21,7 +21,7 @@
     "scripts": {
         "compile": "rm -rf dist && virmator compile",
         "format": "virmator format",
-        "publish": "virmator publish npm run compile && npm run test:all",
+        "publish": "virmator publish \"npm run compile && npm run test:all\"",
         "spellcheck": "virmator spellcheck",
         "test": "bash ./bash-scripts/run-tests.sh && npm run test:types",
         "test:all": "npm run test:types && npm test && npm run spellcheck && npm run test:format",
