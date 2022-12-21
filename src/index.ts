@@ -218,18 +218,10 @@ function isFull(metrics: CoverageSummary) {
     );
 }
 
-function shouldSkipRow({
-    node,
-    skipEmpty,
-    skipFull,
-}: {
-    node: ReportNode;
-    skipEmpty: boolean;
-    skipFull: boolean;
-}): boolean {
+function shouldSkipRow({node, skipFull}: {node: ReportNode; skipFull: boolean}): boolean {
     const metrics = node.getCoverageSummary(false);
     const isEmpty = metrics.isEmpty();
-    if (skipEmpty && isEmpty) {
+    if (isEmpty) {
         return true;
     }
     if (skipFull && isFull(metrics)) {
@@ -245,14 +237,13 @@ function tableRow(
     colorizer: (input: string, key: keyof Watermarks | string) => string,
     maxNameCols: number,
     level: number,
-    skipEmpty: boolean,
     skipFull: boolean,
     missingWidth: number,
 ) {
     const name = nodeName(node);
     const metrics = node.getCoverageSummary(false);
     const isEmpty = metrics.isEmpty();
-    if (shouldSkipRow({node, skipEmpty, skipFull})) {
+    if (shouldSkipRow({node, skipFull})) {
         return '';
     }
 
@@ -363,7 +354,6 @@ export class SmartTextReport extends ReportBase {
         if (
             shouldSkipRow({
                 node: node,
-                skipEmpty: this.skipEmpty,
                 skipFull: this.skipFull,
             })
         ) {
@@ -378,7 +368,6 @@ export class SmartTextReport extends ReportBase {
             this.cw!.colorize.bind(this.cw),
             this.nameWidth,
             nodeDepth,
-            this.skipEmpty,
             this.skipFull,
             this.missingWidth,
         );
