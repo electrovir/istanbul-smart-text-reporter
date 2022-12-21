@@ -1,0 +1,19 @@
+{
+    "cli tests": {
+        "no table at 100%": {
+            "stdout": "\n> test\n> vir-c8 --colors --config 'configs/c8.config.js' mocha --colors --config 'configs/mocha.config.js'\n\n\nsrc/total-coverage-file.test.ts\n  cli tests\n     ✔ test the thing\n\n  1 passing \n\n",
+            "stderr": "",
+            "exitCode": 0
+        },
+        "fail with table when not at 100%": {
+            "stderr": "Test coverage requirement of 100% not met.\n",
+            "stdout": "\n> test\n> vir-c8 --colors --config 'configs/c8.config.js' mocha --colors --config 'configs/mocha.config.js'\n\n\nsrc/total-coverage-file.test.ts\n  cli tests\n     ✔ test the thing\n\n  1 passing \n\n------------------------|---------|----------|---------|---------|-------------------\nFile                    | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s \n------------------------|---------|----------|---------|---------|-------------------\nAll files               |      50 |       50 |      50 |      50 |                   \n no-coverage-file.ts    |       0 |        0 |       0 |       0 | 1-3               \n------------------------|---------|----------|---------|---------|-------------------\n",
+            "exitCode": 1
+        },
+        "no fail if failBelow at 0": {
+            "stdout": "\n> test\n> vir-c8 --colors --config 'configs/c8.config.js' mocha --colors --config 'configs/mocha.config.js'\n\n\nsrc/total-coverage-file.test.ts\n  cli tests\n     ✔ test the thing\n\n  1 passing \n\n------------------------|---------|----------|---------|---------|-------------------\nFile                    | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s \n------------------------|---------|----------|---------|---------|-------------------\nAll files               |      50 |       50 |      50 |      50 |                   \n no-coverage-file.ts    |       0 |        0 |       0 |       0 | 1-3               \n------------------------|---------|----------|---------|---------|-------------------\n",
+            "stderr": "",
+            "exitCode": 0
+        }
+    }
+}

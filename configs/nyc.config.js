@@ -3,13 +3,12 @@ const baseOptions = require('virmator/base-configs/base-nyc.js');
 
 const repoDir = dirname(__dirname);
 
-const nycConfig = {
+const c8Config = {
     ...baseOptions,
-    extends: '@istanbuljs/nyc-config-typescript',
     instrument: true,
     exclude: '**/*.test.ts',
     include: 'src/*',
     reporter: join(repoDir, 'dist', 'index.js'),
 };
 
-module.exports = nycConfig;
+module.exports = c8Config;

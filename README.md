@@ -15,7 +15,7 @@ npm i -D istanbul-smart-text-reporter
 ### Using config file
 
 ```javascript
-// nyc.config.js
+// c8.config.js
 
 module.exports = {
     reporter: 'istanbul-smart-text-reporter',

@@ -1,8 +1,10 @@
-import {runShellCommand} from '@augment-vir/node-js';
-import chai, {assert} from 'chai';
+import {removeColor} from '@augment-vir/common';
+import {runShellCommand, ShellOutput} from '@augment-vir/node-js';
+import chai from 'chai';
 import {remove} from 'fs-extra';
 import {describe, it} from 'mocha';
 import {dirname, join} from 'path';
+import {assertExpectation} from 'test-established-expectations';
 
 chai.config.truncateThreshold = 0;
 
@@ -15,7 +17,11 @@ const testDirPaths = {
     partialCoverageIgnore: join(testFilesDir, 'partial-coverage-ignore'),
 };
 
-async function runTest(dir: string) {
+function cleanOutput(output: string): string {
+    return removeColor(output).replace(/\(\d+m?s\)/g, '');
+}
+
+async function runTest(dir: string, expectationKey: string) {
     await runShellCommand(`npm i -D ${process.env.TAR_TO_INSTALL}`, {
         cwd: dir,
         rejectOnError: true,
@@ -27,39 +33,29 @@ async function runTest(dir: string) {
     await remove(join(dir, 'node_modules'));
     await remove(join(dir, 'package-lock.json'));
 
-    return testResults;
+    await assertExpectation<Omit<ShellOutput, 'error' | 'exitSignal'>>({
+        key: {
+            topKey: {describe: 'cli tests'},
+            subKey: expectationKey,
+        },
+        result: {
+            stderr: cleanOutput(testResults.stderr),
+            stdout: cleanOutput(testResults.stdout),
+            exitCode: testResults.exitCode,
+        },
+    });
 }
-
-const tableRegExp = /-{3,}\|-{3,}\|-{3,}\|-{3,}\|-{3,}\|/;
 
 describe('cli tests', () => {
     it('should write no table when there is 100% coverage', async () => {
-        const results = await runTest(testDirPaths.totalCoverage);
-
-        assert.notMatch(results.stdout, tableRegExp);
-        assert.notInclude(
-            results.stderr,
-            'ERROR: Coverage for lines (0%) does not meet threshold (100%)',
-        );
-        assert.strictEqual(results.exitCode, 0, 'exit code should be zero');
+        await runTest(testDirPaths.totalCoverage, 'no table at 100%');
     });
 
     it('should write a table when there is not 100% coverage', async () => {
-        const results = await runTest(testDirPaths.partialCoverage);
-
-        assert.match(results.stdout, tableRegExp);
-        assert.include(results.stderr, 'test failed');
-        assert.strictEqual(results.exitCode, 1, 'should have failed due to partial coverage');
+        await runTest(testDirPaths.partialCoverage, 'fail with table when not at 100%');
     });
 
     it('should not fail if failBelow is 0', async () => {
-        const results = await runTest(testDirPaths.partialCoverageIgnore);
-
-        assert.match(results.stdout, tableRegExp);
-        assert.strictEqual(
-            results.exitCode,
-            0,
-            'should not have failed since checking is turned off',
-        );
+        await runTest(testDirPaths.partialCoverageIgnore, 'no fail if failBelow at 0');
     });
 });

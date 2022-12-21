@@ -2,18 +2,16 @@
     "name": "partial-coverage-ignore",
     "private": true,
     "scripts": {
-        "test": "virmator test"
+        "test": "vir-c8 --colors --config 'configs/c8.config.js' mocha --colors --config 'configs/mocha.config.js'"
     },
     "devDependencies": {
-        "@electrovir/nyc": "^15.1.0-fix0",
-        "@istanbuljs/nyc-config-typescript": "^1.0.2",
+        "@electrovir/c8": "^7.12.0-fix1",
         "@types/chai": "^4.3.4",
         "@types/mocha": "^10.0.0",
         "chai": "^4.3.7",
         "istanbul-smart-text-reporter": "file:../../package.tgz",
         "mocha": "^10.1.0",
         "mocha-spec-reporter-with-file-names": "^0.0.3",
-        "nyc": "^15.1.0",
         "ts-node": "^10.9.1"
     }
 }
