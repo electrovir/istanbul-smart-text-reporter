@@ -16,7 +16,7 @@ mv "$originalTarOutput" "$TAR_TO_INSTALL";
 # allow mocha to fail without exiting the script
 set +e;
 
-mocha --config "$repoRootDir"/configs/mocha.config.js "$@";
+mocha --config "${repoRootDir}/configs/mocha.config.js" "$@";
 testResult=$?;
 
 exit "$testResult";
