@@ -33,7 +33,6 @@
     (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
     SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
-import {typedHasProperty} from '@augment-vir/common';
 import {CoverageSummary, Totals} from 'istanbul-lib-coverage';
 import {ContentWriter, Context, ReportBase, ReportNode, Watermarks} from 'istanbul-lib-report';
 
@@ -372,9 +371,10 @@ export class SmartTextReport extends ReportBase {
             this.missingWidth,
         );
         // the c_full property is not documented but it does exist as runtime
-        this.lowestPercent = typedHasProperty(node, 'c_full')
-            ? Math.min(this.lowestPercent, getLowestCoverage(node.c_full as any))
-            : this.lowestPercent;
+        this.lowestPercent =
+            'c_full' in node
+                ? Math.min(this.lowestPercent, getLowestCoverage(node.c_full as any))
+                : this.lowestPercent;
         if (!row) {
             throw new Error(`Rows should never be empty because they're filtered beforehand.`);
         }
